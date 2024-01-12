@@ -97,7 +97,7 @@ module Docker::Compose
         end
 
         desc 'Run command on host, linked to services in containers'
-        task :host, [:command] => [task_name('up')] do |_task, args|
+        task :host, [:command] => [task_name('env')] do |_task, args|
           exec(args[:command])
         end
 
