@@ -4,30 +4,34 @@ on:
   - pull_request
   - push
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0.0
+          ruby-version: "4.0"
           bundler-cache: true
       - name: build
         run: bundle exec rake build
 
   test:
-    name: test
+    name: test (ruby ${{ matrix.ruby-version }})
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
-        ruby-version: ["2.6", "2.7", "3.0"]
+        ruby-version: ["3.4", "4.0"]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
